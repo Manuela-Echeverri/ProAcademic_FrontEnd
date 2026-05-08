@@ -1,29 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { AlmacenamientoServicio } from '../../../../../nucleo/servicios/almacenamiento.servicio';
 import { Sesion } from '../../../../autenticacion/dominio/modelos/sesion.modelo';
 
 @Component({
   selector: 'app-inicio-pagina',
   standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule
-  ],
-  templateUrl: './inicio.pagina.html'
+  imports: [MatIconModule],
+  templateUrl: './inicio.pagina.html',
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class InicioPagina {
 
   sesion: Sesion | null = null;
   menuAbierto = true;
+  rutaActiva = '/inicio';
+  fechaHoy = new Date().toLocaleDateString('es-CO', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
 
   menuItems = [
     { icono: 'dashboard', etiqueta: 'Inicio', ruta: '/inicio' },
@@ -45,6 +40,7 @@ export class InicioPagina {
   }
 
   navegarA(ruta: string): void {
+    this.rutaActiva = ruta;
     this.router.navigate([ruta]);
   }
 }

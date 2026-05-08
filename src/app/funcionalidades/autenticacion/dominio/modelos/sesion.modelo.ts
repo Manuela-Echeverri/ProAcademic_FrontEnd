@@ -1,8 +1,9 @@
 export interface Sesion {
-  token: string;
-  tipo: string;
-  correo: string;
+  id: number;
   nombre: string;
+  apellido: string;
+  correo: string;
+  usuario: string;
   rol: string;
-  expiracion: number;
+  fechaCreacion: string;
 }

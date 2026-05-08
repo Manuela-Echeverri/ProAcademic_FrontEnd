@@ -1,60 +1,162 @@
-<mat-sidenav-container class="min-h-screen">
+<div class="flex min-h-screen" style="background: #F5F3FF">
 
-  <mat-sidenav mode="side" [opened]="menuAbierto" class="w-64 bg-blue-800">
-    <div class="flex flex-col items-center p-6 bg-blue-900">
-      <mat-icon class="text-white text-5xl mb-2">school</mat-icon>
-      <h2 class="text-white font-bold text-lg">Pro Academic</h2>
+  <!-- SIDENAV -->
+  <div class="flex flex-col shadow-xl transition-all duration-300"
+       [style.width]="menuAbierto ? '260px' : '70px'"
+       style="background: linear-gradient(180deg, #1E1B4B 0%, #7C3AED 100%); min-height: 100vh">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-3 p-4 border-b" style="border-color: rgba(255,255,255,0.1)">
+      <div class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+           style="background: rgba(255,255,255,0.2)">
+        <mat-icon style="color: white">school</mat-icon>
+      </div>
+      @if (menuAbierto) {
+        <span class="font-bold text-white text-lg">ProAcademic</span>
+      }
     </div>
 
-    <mat-nav-list>
-      @for (item of menuItems; track item.ruta) {
-        <mat-list-item (click)="navegarA(item.ruta)" class="cursor-pointer hover:bg-blue-700">
-          <mat-icon matListItemIcon class="text-white">{{ item.icono }}</mat-icon>
-          <span matListItemTitle class="text-white">{{ item.etiqueta }}</span>
-        </mat-list-item>
-      }
-    </mat-nav-list>
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button mat-icon-button (click)="menuAbierto = !menuAbierto">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span class="flex-1">Bienvenido, {{ sesion?.nombre || 'Usuario' }}</span>
-      <button mat-icon-button (click)="cerrarSesion()">
-        <mat-icon>logout</mat-icon>
-      </button>
-    </mat-toolbar>
-
-    <div class="p-6">
-      <h1 class="text-2xl font-bold text-gray-700 mb-4">Panel Principal</h1>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-white rounded-lg shadow p-6 flex items-center gap-4">
-          <mat-icon class="text-blue-600 text-4xl">people</mat-icon>
-          <div>
-            <p class="text-gray-500 text-sm">Usuarios</p>
-            <p class="text-2xl font-bold">0</p>
+    <!-- Usuario -->
+    @if (menuAbierto) {
+      <div class="p-4 border-b" style="border-color: rgba(255,255,255,0.1)">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center justify-center w-10 h-10 rounded-full shrink-0"
+               style="background: rgba(236,72,153,0.3)">
+            <mat-icon style="color: #EC4899">person</mat-icon>
           </div>
-        </div>
-        <div class="bg-white rounded-lg shadow p-6 flex items-center gap-4">
-          <mat-icon class="text-green-600 text-4xl">book</mat-icon>
           <div>
-            <p class="text-gray-500 text-sm">Materias</p>
-            <p class="text-2xl font-bold">0</p>
-          </div>
-        </div>
-        <div class="bg-white rounded-lg shadow p-6 flex items-center gap-4">
-          <mat-icon class="text-orange-600 text-4xl">grade</mat-icon>
-          <div>
-            <p class="text-gray-500 text-sm">Notas</p>
-            <p class="text-2xl font-bold">0</p>
+            <p class="text-white font-medium text-sm">{{ sesion?.nombre }} {{ sesion?.apellido }}</p>
+            <p class="text-xs" style="color: rgba(255,255,255,0.6)">{{ sesion?.rol }}</p>
           </div>
         </div>
       </div>
+    }
+
+    <!-- Menú -->
+    <nav class="flex-1 py-4">
+      @for (item of menuItems; track item.ruta) {
+        <div class="menu-item mx-2 mb-1 rounded-xl cursor-pointer flex items-center gap-3 px-3 py-3 transition-all"
+             [style.background]="rutaActiva === item.ruta ? 'rgba(255,255,255,0.2)' : 'transparent'"
+             (click)="navegarA(item.ruta)">
+          <mat-icon class="shrink-0" style="color: white">{{ item.icono }}</mat-icon>
+          @if (menuAbierto) {
+            <span class="text-white text-sm font-medium">{{ item.etiqueta }}</span>
+          }
+        </div>
+      }
+    </nav>
+
+    <!-- Cerrar sesión -->
+    <div class="p-4 border-t" style="border-color: rgba(255,255,255,0.1)">
+      <div class="flex items-center gap-3 cursor-pointer rounded-xl px-3 py-3 transition-all"
+           (click)="cerrarSesion()">
+        <mat-icon style="color: #EC4899" class="shrink-0">logout</mat-icon>
+        @if (menuAbierto) {
+          <span style="color: #EC4899" class="text-sm font-medium">Cerrar Sesión</span>
+        }
+      </div>
     </div>
 
-  </mat-sidenav-content>
+  </div>
 
-</mat-sidenav-container>
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="flex-1 flex flex-col">
+
+    <!-- NAVBAR -->
+    <header class="flex items-center justify-between px-6 py-4 shadow-sm"
+            style="background: white; border-bottom: 2px solid #F5F3FF">
+      <div class="flex items-center gap-4">
+        <button class="rounded-xl p-2 transition-all"
+                style="color: #7C3AED"
+                (click)="menuAbierto = !menuAbierto">
+          <mat-icon>{{ menuAbierto ? 'menu_open' : 'menu' }}</mat-icon>
+        </button>
+        <div>
+          <h1 class="font-bold text-lg" style="color: #1E1B4B">Panel Principal</h1>
+          <p class="text-xs" style="color: #6B7280">Bienvenido de nuevo</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 px-4 py-2 rounded-xl"
+           style="background: #F5F3FF">
+        <mat-icon style="color: #7C3AED; font-size: 18px">calendar_today</mat-icon>
+        <span class="text-sm font-medium" style="color: #1E1B4B">{{ fechaHoy }}</span>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <main class="flex-1 p-6">
+
+      <!-- Tarjetas de estadísticas -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+        <div class="stat-card rounded-2xl p-6 shadow-sm cursor-pointer transition-all"
+             style="background: white; border-left: 4px solid #7C3AED"
+             (click)="navegarA('/usuarios')">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium" style="color: #6B7280">Usuarios</p>
+              <p class="text-3xl font-bold mt-1" style="color: #1E1B4B">0</p>
+              <p class="text-xs mt-1" style="color: #A855F7">Ver todos →</p>
+            </div>
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center"
+                 style="background: linear-gradient(135deg, #7C3AED, #A855F7)">
+              <mat-icon style="color: white">people</mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card rounded-2xl p-6 shadow-sm cursor-pointer transition-all"
+             style="background: white; border-left: 4px solid #EC4899"
+             (click)="navegarA('/materias')">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium" style="color: #6B7280">Materias</p>
+              <p class="text-3xl font-bold mt-1" style="color: #1E1B4B">0</p>
+              <p class="text-xs mt-1" style="color: #EC4899">Ver todas →</p>
+            </div>
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center"
+                 style="background: linear-gradient(135deg, #EC4899, #F472B6)">
+              <mat-icon style="color: white">book</mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card rounded-2xl p-6 shadow-sm cursor-pointer transition-all"
+             style="background: white; border-left: 4px solid #A855F7"
+             (click)="navegarA('/notas')">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium" style="color: #6B7280">Notas</p>
+              <p class="text-3xl font-bold mt-1" style="color: #1E1B4B">0</p>
+              <p class="text-xs mt-1" style="color: #A855F7">Ver todas →</p>
+            </div>
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center"
+                 style="background: linear-gradient(135deg, #A855F7, #7C3AED)">
+              <mat-icon style="color: white">grade</mat-icon>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Accesos rápidos -->
+      <div class="rounded-2xl p-6 shadow-sm" style="background: white">
+        <h2 class="font-bold text-lg mb-4" style="color: #1E1B4B">Accesos Rápidos</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          @for (item of menuItems; track item.ruta) {
+            <div class="acceso-rapido flex flex-col items-center gap-2 p-4 rounded-xl cursor-pointer transition-all"
+                 style="background: #F5F3FF"
+                 (click)="navegarA(item.ruta)">
+              <div class="w-12 h-12 rounded-xl flex items-center justify-center"
+                   style="background: linear-gradient(135deg, #7C3AED, #A855F7)">
+                <mat-icon style="color: white">{{ item.icono }}</mat-icon>
+              </div>
+              <span class="text-sm font-medium text-center" style="color: #1E1B4B">{{ item.etiqueta }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>

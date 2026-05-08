@@ -1,57 +1,113 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <mat-card class="w-full max-w-md p-6 shadow-lg">
+<div class="min-h-screen flex items-center justify-center" 
+     style="background: linear-gradient(135deg, #1E1B4B 0%, #7C3AED 50%, #A855F7 100%)">
 
-    <mat-card-header class="flex flex-col items-center mb-6">
-      <mat-icon class="text-5xl text-blue-600 mb-2">school</mat-icon>
-      <mat-card-title class="text-2xl font-bold">Pro Academic</mat-card-title>
-      <mat-card-subtitle>Inicia sesión para continuar</mat-card-subtitle>
-    </mat-card-header>
+  <div class="w-full max-w-md mx-4">
 
-    <mat-card-content>
+    <!-- Logo y título -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full mb-4"
+           style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px)">
+        <mat-icon style="font-size: 40px; width: 40px; height: 40px; color: white">school</mat-icon>
+      </div>
+      <h1 class="text-4xl font-bold text-white mb-1">ProAcademic</h1>
+      <p style="color: rgba(255,255,255,0.7)">Sistema de Gestión Académica</p>
+    </div>
+
+    <!-- Card del formulario -->
+    <div class="rounded-2xl p-8 shadow-2xl"
+         style="background: rgba(255,255,255,0.95); backdrop-filter: blur(20px)">
+
+      <h2 class="text-2xl font-bold mb-1" style="color: #1E1B4B">Bienvenido</h2>
+      <p class="text-sm mb-6" style="color: #6B7280">Ingresa tus credenciales para continuar</p>
+
       <form [formGroup]="formulario" (ngSubmit)="alEnviar()">
 
-        <mat-form-field appearance="outline" class="w-full mb-4">
-          <mat-label>Correo electrónico</mat-label>
-          <input matInput formControlName="correo" type="email" placeholder="correo@ejemplo.com">
-          <mat-icon matSuffix>email</mat-icon>
-          @if (formulario.get('correo')?.hasError('required')) {
-            <mat-error>El correo es requerido</mat-error>
+        <!-- Correo -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1" style="color: #1E1B4B">
+            Correo electrónico
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-3" style="color: #7C3AED">
+              <mat-icon>email</mat-icon>
+            </span>
+            <input formControlName="correo"
+                   type="email"
+                   placeholder="correo@ejemplo.com"
+                   class="w-full pl-10 pr-4 py-3 rounded-xl border-2 outline-none transition-all"
+                   style="border-color: #E5E7EB; font-size: 14px"
+                   (focus)="$event.target.style.borderColor='#7C3AED'"
+                   (blur)="$event.target.style.borderColor='#E5E7EB'">
+          </div>
+          @if (formulario.get('correo')?.touched && formulario.get('correo')?.hasError('required')) {
+            <p class="text-xs mt-1" style="color: #EC4899">El correo es requerido</p>
           }
-          @if (formulario.get('correo')?.hasError('email')) {
-            <mat-error>Ingresa un correo válido</mat-error>
+          @if (formulario.get('correo')?.touched && formulario.get('correo')?.hasError('email')) {
+            <p class="text-xs mt-1" style="color: #EC4899">Ingresa un correo válido</p>
           }
-        </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="outline" class="w-full mb-4">
-          <mat-label>Contraseña</mat-label>
-          <input matInput formControlName="contrasena"
-            [type]="mostrarContrasena ? 'text' : 'password'">
-          <button mat-icon-button matSuffix type="button"
-            (click)="mostrarContrasena = !mostrarContrasena">
-            <mat-icon>{{ mostrarContrasena ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-          @if (formulario.get('contrasena')?.hasError('required')) {
-            <mat-error>La contraseña es requerida</mat-error>
+        <!-- Contraseña -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium mb-1" style="color: #1E1B4B">
+            Contraseña
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-3" style="color: #7C3AED">
+              <mat-icon>lock</mat-icon>
+            </span>
+            <input formControlName="contrasena"
+                   [type]="mostrarContrasena ? 'text' : 'password'"
+                   placeholder="••••••••"
+                   class="w-full pl-10 pr-12 py-3 rounded-xl border-2 outline-none transition-all"
+                   style="border-color: #E5E7EB; font-size: 14px"
+                   (focus)="$event.target.style.borderColor='#7C3AED'"
+                   (blur)="$event.target.style.borderColor='#E5E7EB'">
+            <button type="button"
+                    class="absolute right-3 top-3"
+                    style="color: #6B7280"
+                    (click)="mostrarContrasena = !mostrarContrasena">
+              <mat-icon>{{ mostrarContrasena ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </div>
+          @if (formulario.get('contrasena')?.touched && formulario.get('contrasena')?.hasError('required')) {
+            <p class="text-xs mt-1" style="color: #EC4899">La contraseña es requerida</p>
           }
-          @if (formulario.get('contrasena')?.hasError('minlength')) {
-            <mat-error>Mínimo 6 caracteres</mat-error>
+          @if (formulario.get('contrasena')?.touched && formulario.get('contrasena')?.hasError('minlength')) {
+            <p class="text-xs mt-1" style="color: #EC4899">Mínimo 6 caracteres</p>
           }
-        </mat-form-field>
+        </div>
 
+        <!-- Error general -->
         @if (error) {
-          <p class="text-red-500 text-sm mb-4">{{ error }}</p>
+          <div class="rounded-xl p-3 mb-4 flex items-center gap-2"
+               style="background: #FDF2F8; border: 1px solid #EC4899">
+            <mat-icon style="color: #EC4899; font-size: 18px">error</mat-icon>
+            <p class="text-sm" style="color: #EC4899">{{ error }}</p>
+          </div>
         }
 
+        <!-- Botón -->
         @if (cargando) {
-          <mat-spinner diameter="48"></mat-spinner>
+          <div class="flex justify-center py-3">
+            <mat-spinner diameter="36"></mat-spinner>
+          </div>
         } @else {
-          <button mat-flat-button color="primary" class="w-full" type="submit">
+          <button type="submit"
+                  class="w-full py-3 rounded-xl font-semibold text-white transition-all"
+                  style="background: linear-gradient(135deg, #7C3AED, #A855F7)"
+                  [disabled]="formulario.invalid">
             Iniciar Sesión
           </button>
         }
 
       </form>
-    </mat-card-content>
+    </div>
 
-  </mat-card>
+    <!-- Footer -->
+    <p class="text-center mt-6 text-sm" style="color: rgba(255,255,255,0.6)">
+      © 2026 ProAcademic — Todos los derechos reservados
+    </p>
+
+  </div>
 </div>
