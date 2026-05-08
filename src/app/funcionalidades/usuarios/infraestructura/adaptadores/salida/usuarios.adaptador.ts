@@ -20,13 +20,33 @@ export class UsuariosAdaptador implements UsuariosSalidaPuerto {
     return this.http.get<Usuario>(`usuarios/${id}`);
   }
 
-  crear(usuario: CrearUsuario): Observable<Usuario> {
-    return this.http.post<Usuario>('usuarios', usuario);
-  }
+  crear(usuario: any): Observable<Usuario> {
 
-  actualizar(id: number, usuario: Partial<Usuario>): Observable<Usuario> {
-    return this.http.put<Usuario>(`usuarios/${id}`, usuario);
-  }
+  const payload = {
+    nombre: usuario.nombre,
+    apellido: usuario.apellido,
+    correo: usuario.correo,
+    usuario: usuario.usuario,
+    contrasena: usuario.contrasena,
+    rol: usuario.rol
+  };
+
+  return this.http.post<Usuario>('usuarios', payload);
+}
+
+  actualizar(id: number, usuario: any): Observable<Usuario> {
+
+  const payload = {
+    nombre: usuario.nombre,
+    apellido: usuario.apellido,
+    correo: usuario.correo,
+    usuario: usuario.usuario,
+    contrasena: usuario.contrasena,
+    rol: usuario.rol
+  };
+
+  return this.http.put<Usuario>(`usuarios/${id}`, payload);
+}
 
   eliminar(id: number): Observable<void> {
     return this.http.delete<void>(`usuarios/${id}`);

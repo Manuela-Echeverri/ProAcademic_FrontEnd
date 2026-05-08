@@ -1,5 +1,14 @@
 @import "tailwindcss";
 @import '@angular/material/prebuilt-themes/azure-blue.css';
 
+.menu-item:hover {
+  background: rgba(255,255,255,0.1) !important;
+}
 
+.acceso-rapido:hover {
+  background: #EDE9FE !important;
+}
 
+.stat-card:hover {
+  box-shadow: 0 10px 25px rgba(124,58,237,0.2) !important;
+}

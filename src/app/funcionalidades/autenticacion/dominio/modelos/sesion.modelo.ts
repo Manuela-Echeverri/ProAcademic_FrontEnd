@@ -6,4 +6,5 @@ export interface Sesion {
   usuario: string;
   rol: string;
   fechaCreacion: string;
-}
+  token: string;
+} 

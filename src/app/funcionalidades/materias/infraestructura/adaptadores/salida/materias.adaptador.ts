@@ -1,34 +1,47 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpBaseServicio } from '../../../../../nucleo/servicios/http-base.servicio';
-import { MateriasSalidaPuerto } from '../../../dominio/puertos/salida/materias-salida.puerto';
+
+import { HttpClient } from '@angular/common/http';
+
 import { Materia } from '../../../dominio/modelos/materia.modelo';
-import { CrearMateria } from '../../../dominio/modelos/crear-materia.modelo';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MateriasAdaptador implements MateriasSalidaPuerto {
+export class MateriasAdaptador {
 
-  constructor(private http: HttpBaseServicio) {}
+  private http = inject(HttpClient);
 
-  obtenerTodas(): Observable<Materia[]> {
-    return this.http.get<Materia[]>('materias');
+  private api = 'http://localhost:9090/materias';
+
+  listar(): Observable<Materia[]> {
+
+    return this.http.get<Materia[]>(this.api);
   }
 
-  obtenerPorId(id: number): Observable<Materia> {
-    return this.http.get<Materia>(`materias/${id}`);
+  crear(materia: Materia): Observable<Materia> {
+
+    return this.http.post<Materia>(
+      this.api,
+      materia
+    );
   }
 
-  crear(materia: CrearMateria): Observable<Materia> {
-    return this.http.post<Materia>('materias', materia);
-  }
+  actualizar(
+    id: number,
+    materia: Materia
+  ): Observable<Materia> {
 
-  actualizar(id: number, materia: Partial<Materia>): Observable<Materia> {
-    return this.http.put<Materia>(`materias/${id}`, materia);
+    return this.http.put<Materia>(
+      `${this.api}/${id}`,
+      materia
+    );
   }
 
   eliminar(id: number): Observable<void> {
-    return this.http.delete<void>(`materias/${id}`);
+
+    return this.http.delete<void>(
+      `${this.api}/${id}`
+    );
   }
 }
