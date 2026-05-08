@@ -6,6 +6,12 @@ import { JwtInterceptor } from './nucleo/interceptores/jwt.interceptor';
 import { AutenticacionAdaptador } from './funcionalidades/autenticacion/infraestructura/adaptadores/salida/autenticacion.adaptador';
 import { AUTENTICACION_SALIDA_PUERTO } from './funcionalidades/autenticacion/dominio/puertos/salida/autenticacion-salida.puerto';
 import { routes } from './app.routes';
+import { UsuariosAdaptador } from './funcionalidades/usuarios/infraestructura/adaptadores/salida/usuarios.adaptador';
+import { USUARIOS_SALIDA_PUERTO } from './funcionalidades/usuarios/dominio/puertos/salida/usuarios-salida.puerto';
+import { MateriasAdaptador } from './funcionalidades/materias/infraestructura/adaptadores/salida/materias.adaptador';
+import { MATERIAS_SALIDA_PUERTO } from './funcionalidades/materias/dominio/puertos/salida/materias-salida.puerto';
+import { NotasAdaptador } from './funcionalidades/notas/infraestructura/adaptadores/salida/notas.adaptador';
+import { NOTAS_SALIDA_PUERTO } from './funcionalidades/notas/dominio/puertos/salida/notas-salida.puerto';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,13 +19,25 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
     {
+  provide: NOTAS_SALIDA_PUERTO,
+  useClass: NotasAdaptador
+},
+{
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
     },
-    {
+   {
       provide: AUTENTICACION_SALIDA_PUERTO,
       useClass: AutenticacionAdaptador
-    }
+    },
+    {
+      provide: USUARIOS_SALIDA_PUERTO,
+      useClass: UsuariosAdaptador
+    },
+    {
+  provide: MATERIAS_SALIDA_PUERTO,
+  useClass: MateriasAdaptador
+}
   ]
 };
