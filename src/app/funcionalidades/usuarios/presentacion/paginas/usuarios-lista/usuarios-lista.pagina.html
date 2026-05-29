@@ -1,281 +1,125 @@
-<div class="p-6">
+<div style="padding: 24px; background: #F5F3FF; min-height: 100vh;">
 
-  <div class="flex justify-between items-center mb-6">
-
-    <h1 class="text-2xl font-bold text-gray-700">
-      Usuarios
-    </h1>
-
-    <div class="flex gap-2">
-
-      <button
-        mat-flat-button
-        color="accent"
-        (click)="imprimirPDF()">
-
-        <mat-icon>picture_as_pdf</mat-icon>
-
-        Imprimir Estudiantes
-
-      </button>
-
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="abrirFormularioNuevo()">
-
-        <mat-icon>add</mat-icon>
-
-        Nuevo Usuario
-
-      </button>
-
+  <!-- HEADER -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #7C3AED, #A855F7);">
+        <mat-icon style="color: white;">people</mat-icon>
+      </div>
+      <h1 style="font-size: 24px; font-weight: 700; color: #1E1B4B; margin: 0;">Usuarios</h1>
     </div>
-
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <button style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 12px; background: #F5F3FF; color: #7C3AED; border: 1px solid #DDD6FE; cursor: pointer; font-weight: 500; font-size: 13px;"
+              (click)="imprimirEstudiantes()">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">picture_as_pdf</mat-icon>
+        Estudiantes PDF
+      </button>
+      <button style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 12px; background: #FDF2F8; color: #EC4899; border: 1px solid #FBCFE8; cursor: pointer; font-weight: 500; font-size: 13px;"
+              (click)="imprimirDocentes()">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">picture_as_pdf</mat-icon>
+        Docentes PDF
+      </button>
+      <button style="display: flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 12px; background: linear-gradient(135deg, #7C3AED, #A855F7); color: white; border: none; cursor: pointer; font-weight: 600; font-size: 14px;"
+              (click)="abrirFormularioNuevo()">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px;">add</mat-icon>
+        Nuevo Usuario
+      </button>
+    </div>
   </div>
 
   <!-- FORMULARIO -->
   @if (mostrarFormulario) {
-
-    <div class="bg-white shadow rounded-lg p-6 mb-6">
-
-      <h2 class="text-lg font-semibold mb-4">
-
+    <div style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid #7C3AED;">
+      <h2 style="font-size: 18px; font-weight: 600; color: #1E1B4B; margin: 0 0 20px;">
         {{ editando ? 'Editar Usuario' : 'Nuevo Usuario' }}
-
       </h2>
-
-      <form
-        [formGroup]="formulario"
-        class="grid grid-cols-2 gap-4">
-
+      <form [formGroup]="formulario" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
         <mat-form-field appearance="outline">
-
           <mat-label>Nombre</mat-label>
-
-          <input
-            matInput
-            formControlName="nombre"
-            placeholder="Nombre">
-
+          <input matInput formControlName="nombre">
         </mat-form-field>
-
         <mat-form-field appearance="outline">
-
           <mat-label>Apellido</mat-label>
-
-          <input
-            matInput
-            formControlName="apellido"
-            placeholder="Apellido">
-
+          <input matInput formControlName="apellido">
         </mat-form-field>
-
         <mat-form-field appearance="outline">
-
           <mat-label>Correo</mat-label>
-
-          <input
-            matInput
-            formControlName="correo"
-            placeholder="correo@ejemplo.com">
-
+          <input matInput formControlName="correo">
         </mat-form-field>
-
         <mat-form-field appearance="outline">
-
           <mat-label>Usuario</mat-label>
-
-          <input
-            matInput
-            formControlName="usuario"
-            placeholder="nombre de usuario">
-
+          <input matInput formControlName="usuario">
         </mat-form-field>
-
         <mat-form-field appearance="outline">
-
-          <mat-label>
-
-            {{ editando
-              ? 'Nueva Contraseña (opcional)'
-              : 'Contraseña' }}
-
-          </mat-label>
-
-          <input
-            matInput
-            type="password"
-            formControlName="contrasena">
-
+          <mat-label>{{ editando ? 'Nueva Contraseña (opcional)' : 'Contraseña' }}</mat-label>
+          <input matInput type="password" formControlName="contrasena">
         </mat-form-field>
-
         <mat-form-field appearance="outline">
-
           <mat-label>Rol</mat-label>
-
           <mat-select formControlName="rol">
-
-            <mat-option value="ADMIN">
-              Admin
-            </mat-option>
-
-            <mat-option value="DOCENTE">
-              Docente
-            </mat-option>
-
-            <mat-option value="ESTUDIANTE">
-              Estudiante
-            </mat-option>
-
+            <mat-option value="ADMIN">Admin</mat-option>
+            <mat-option value="DOCENTE">Docente</mat-option>
+            <mat-option value="ESTUDIANTE">Estudiante</mat-option>
           </mat-select>
-
         </mat-form-field>
-
       </form>
-
-      <div class="flex justify-end gap-2 mt-4">
-
-        <button
-          mat-stroked-button
-          (click)="cerrarFormulario()">
-
-          Cancelar
-
-        </button>
-
-        <button
-          mat-flat-button
-          color="primary"
-
-          [disabled]="formulario.invalid"
-
-          (click)="guardar()">
-
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+        <button style="padding: 8px 20px; border-radius: 12px; border: 1px solid #7C3AED; background: white; color: #7C3AED; cursor: pointer; font-weight: 500;"
+                (click)="cerrarFormulario()">Cancelar</button>
+        <button style="padding: 8px 20px; border-radius: 12px; background: linear-gradient(135deg, #7C3AED, #A855F7); color: white; border: none; cursor: pointer; font-weight: 600;"
+                [disabled]="formulario.invalid" (click)="guardar()">
           {{ editando ? 'Actualizar' : 'Crear' }}
-
         </button>
-
       </div>
-
     </div>
   }
 
   <!-- LOADING -->
   @if (cargando) {
-
-    <div class="flex justify-center p-8">
-
+    <div style="display: flex; justify-content: center; padding: 32px;">
       <mat-spinner diameter="48"></mat-spinner>
-
     </div>
-
   }
 
   <!-- TABLA -->
-  <table
-    mat-table
-    [dataSource]="dataSource"
-    class="w-full shadow rounded-lg">
-
-    <!-- NOMBRE -->
-    <ng-container matColumnDef="nombre">
-
-      <th mat-header-cell *matHeaderCellDef>
-        Nombre
-      </th>
-
-      <td mat-cell *matCellDef="let u">
-        {{ u.nombre }}
-      </td>
-
-    </ng-container>
-
-    <!-- APELLIDO -->
-    <ng-container matColumnDef="apellido">
-
-      <th mat-header-cell *matHeaderCellDef>
-        Apellido
-      </th>
-
-      <td mat-cell *matCellDef="let u">
-        {{ u.apellido }}
-      </td>
-
-    </ng-container>
-
-    <!-- CORREO -->
-    <ng-container matColumnDef="correo">
-
-      <th mat-header-cell *matHeaderCellDef>
-        Correo
-      </th>
-
-      <td mat-cell *matCellDef="let u">
-        {{ u.correo }}
-      </td>
-
-    </ng-container>
-
-    <!-- ROL -->
-    <ng-container matColumnDef="rol">
-
-      <th mat-header-cell *matHeaderCellDef>
-        Rol
-      </th>
-
-      <td mat-cell *matCellDef="let u">
-        {{ u.rol }}
-      </td>
-
-    </ng-container>
-
-    <!-- ACCIONES -->
-    <ng-container matColumnDef="acciones">
-
-      <th mat-header-cell *matHeaderCellDef>
-        Acciones
-      </th>
-
-      <td mat-cell *matCellDef="let u">
-
-        <button
-          mat-icon-button
-          color="primary"
-          (click)="abrirFormularioEditar(u)">
-
-          <mat-icon>edit</mat-icon>
-
-        </button>
-
-        <button
-          mat-icon-button
-          color="warn"
-          (click)="eliminar(u.id)">
-
-          <mat-icon>delete</mat-icon>
-
-        </button>
-
-      </td>
-
-    </ng-container>
-
-    <tr
-      mat-header-row
-      *matHeaderRowDef="columnas">
-    </tr>
-
-    <tr
-      mat-row
-      *matRowDef="let row; columns: columnas;">
-    </tr>
-
-  </table>
-
-  <mat-paginator
-    [pageSize]="5"
-    showFirstLastButtons>
-  </mat-paginator>
-
+  <div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <table mat-table [dataSource]="dataSource" style="width: 100%;">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef style="background: #F5F3FF; color: #1E1B4B; font-weight: 600;">Nombre</th>
+        <td mat-cell *matCellDef="let u" style="color: #1E1B4B; font-weight: 500;">{{ u.nombre }}</td>
+      </ng-container>
+      <ng-container matColumnDef="apellido">
+        <th mat-header-cell *matHeaderCellDef style="background: #F5F3FF; color: #1E1B4B; font-weight: 600;">Apellido</th>
+        <td mat-cell *matCellDef="let u" style="color: #6B7280;">{{ u.apellido }}</td>
+      </ng-container>
+      <ng-container matColumnDef="correo">
+        <th mat-header-cell *matHeaderCellDef style="background: #F5F3FF; color: #1E1B4B; font-weight: 600;">Correo</th>
+        <td mat-cell *matCellDef="let u" style="color: #6B7280;">{{ u.correo }}</td>
+      </ng-container>
+      <ng-container matColumnDef="rol">
+        <th mat-header-cell *matHeaderCellDef style="background: #F5F3FF; color: #1E1B4B; font-weight: 600;">Rol</th>
+        <td mat-cell *matCellDef="let u">
+          <span [style.background]="u.rol === 'ADMIN' ? '#F5F3FF' : u.rol === 'DOCENTE' ? '#FDF2F8' : '#F0FDF4'"
+                [style.color]="u.rol === 'ADMIN' ? '#7C3AED' : u.rol === 'DOCENTE' ? '#EC4899' : '#16A34A'"
+                style="padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600;">
+            {{ u.rol }}
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef style="background: #F5F3FF; color: #1E1B4B; font-weight: 600;">Acciones</th>
+        <td mat-cell *matCellDef="let u">
+          <button mat-icon-button style="color: #7C3AED;" (click)="abrirFormularioEditar(u)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button style="color: #EC4899;" (click)="eliminar(u.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas;" style="border-bottom: 1px solid #F5F3FF;"></tr>
+    </table>
+    <mat-paginator [pageSize]="5" showFirstLastButtons style="border-top: 1px solid #F5F3FF;"></mat-paginator>
+  </div>
 </div>

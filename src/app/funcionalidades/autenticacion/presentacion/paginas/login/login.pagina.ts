@@ -54,8 +54,17 @@ export class LoginPagina {
       next: (sesion: any) => {
         this.almacenamiento.guardar('token', sesion.token);
         this.almacenamiento.guardar('sesion', sesion);
+        this.almacenamiento.guardar('userId', sesion.id);
         this.cargando = false;
-        this.router.navigate(['/inicio']);
+
+        const rol = sesion.rol?.toUpperCase();
+        if (rol === 'DOCENTE') {
+          this.router.navigate(['/docente/cursos']);
+        } else if (rol === 'ESTUDIANTE') {
+          this.router.navigate(['/estudiante/cursos']);
+        } else {
+          this.router.navigate(['/inicio']);
+        }
       },
       error: () => {
         this.cargando = false;
@@ -64,4 +73,3 @@ export class LoginPagina {
     });
   }
 }
-

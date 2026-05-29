@@ -12,3 +12,8 @@
 .stat-card:hover {
   box-shadow: 0 10px 25px rgba(124,58,237,0.2) !important;
 }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}

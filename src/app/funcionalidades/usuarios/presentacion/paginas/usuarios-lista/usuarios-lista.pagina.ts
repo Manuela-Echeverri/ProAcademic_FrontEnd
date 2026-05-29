@@ -20,6 +20,8 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
+import { environment } from '../../../../../../environments/environments';
+
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -319,13 +321,11 @@ export class UsuariosListaPagina implements OnInit {
       });
   }
 
-  imprimirPDF(): void {
+  imprimirEstudiantes(): void {
+    window.open(`${environment.apiUrl}/reportes/estudiantes/pdf?curso=General`, '_blank');
+  }
 
-    window.open(
-
-      'http://localhost:9090/reportes/estudiantes/pdf?curso=General',
-
-      '_blank'
-    );
+  imprimirDocentes(): void {
+    window.open(`${environment.apiUrl}/reportes/docentes/pdf`, '_blank');
   }
 }

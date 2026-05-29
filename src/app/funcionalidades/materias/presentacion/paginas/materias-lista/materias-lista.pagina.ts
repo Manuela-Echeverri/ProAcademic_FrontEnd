@@ -24,6 +24,8 @@ import { MateriasAdaptador } from '../../../infraestructura/adaptadores/salida/m
 
 import { Materia } from '../../../dominio/modelos/materia.modelo';
 
+import { environment } from '../../../../../../environments/environments';
+
 @Component({
   selector: 'app-materias-lista',
 
@@ -222,12 +224,6 @@ export class MateriasListaPagina implements OnInit {
   }
 
   imprimirPDF(): void {
-
-    window.open(
-
-      'http://localhost:9090/reportes/materias/pdf',
-
-      '_blank'
-    );
+    window.open(`${environment.apiUrl}/reportes/materias/pdf`, '_blank');
   }
 }

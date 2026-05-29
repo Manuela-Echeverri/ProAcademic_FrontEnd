@@ -1,6 +1,6 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptorsFromDi, withFetch, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { JwtInterceptor } from './nucleo/interceptores/jwt.interceptor';
 import { AutenticacionAdaptador } from './funcionalidades/autenticacion/infraestructura/adaptadores/salida/autenticacion.adaptador';
@@ -12,22 +12,24 @@ import { MateriasAdaptador } from './funcionalidades/materias/infraestructura/ad
 import { MATERIAS_SALIDA_PUERTO } from './funcionalidades/materias/dominio/puertos/salida/materias-salida.puerto';
 import { NotasAdaptador } from './funcionalidades/notas/infraestructura/adaptadores/salida/notas.adaptador';
 import { NOTAS_SALIDA_PUERTO } from './funcionalidades/notas/dominio/puertos/salida/notas-salida.puerto';
+import { EstudianteAdaptador } from './funcionalidades/estudiante/infraestructura/adaptadores/salida/estudiante.adaptador';
+import { ESTUDIANTE_SALIDA_PUERTO } from './funcionalidades/estudiante/dominio/puertos/salida/estudiante-salida.puerto';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    provideHttpClient(withInterceptorsFromDi()),
     {
-  provide: NOTAS_SALIDA_PUERTO,
-  useClass: NotasAdaptador
-},
-{
+      provide: NOTAS_SALIDA_PUERTO,
+      useClass: NotasAdaptador
+    },
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
     },
-   {
+    {
       provide: AUTENTICACION_SALIDA_PUERTO,
       useClass: AutenticacionAdaptador
     },
@@ -36,8 +38,12 @@ export const appConfig: ApplicationConfig = {
       useClass: UsuariosAdaptador
     },
     {
-  provide: MATERIAS_SALIDA_PUERTO,
-  useClass: MateriasAdaptador
-}
+      provide: MATERIAS_SALIDA_PUERTO,
+      useClass: MateriasAdaptador
+    },
+    {
+      provide: ESTUDIANTE_SALIDA_PUERTO,
+      useClass: EstudianteAdaptador
+    }
   ]
 };
