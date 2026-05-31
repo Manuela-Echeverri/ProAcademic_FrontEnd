@@ -1,0 +1,112 @@
+<div style="padding: 24px;">
+
+  <div
+    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+
+    <div>
+
+      <h1 style="margin: 0; color: #1E1B4B;">
+        Gestión de Notas
+      </h1>
+
+      <p style="margin: 4px 0 0; color: #6B7280;">
+        Administración de calificaciones
+      </p>
+
+    </div>
+
+    <button
+      mat-raised-button
+      style="background: #7C3AED; color: white;">
+
+      <mat-icon>add</mat-icon>
+      Nueva Nota
+
+    </button>
+
+  </div>
+
+  @if(cargando){
+
+    <div style="display: flex; justify-content: center; padding: 40px;">
+      <mat-spinner></mat-spinner>
+    </div>
+
+  } @else {
+
+    <table
+      mat-table
+      [dataSource]="notas"
+      style="width: 100%; background: white; border-radius: 16px; overflow: hidden;">
+
+      <!-- ESTUDIANTE -->
+      <ng-container matColumnDef="estudiante">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Estudiante
+        </th>
+
+        <td mat-cell *matCellDef="let nota">
+          {{ nota.estudiante }}
+        </td>
+
+      </ng-container>
+
+      <!-- MATERIA -->
+      <ng-container matColumnDef="materia">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Materia
+        </th>
+
+        <td mat-cell *matCellDef="let nota">
+          {{ nota.materia }}
+        </td>
+
+      </ng-container>
+
+      <!-- NOTA -->
+      <ng-container matColumnDef="nota">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Nota
+        </th>
+
+        <td mat-cell *matCellDef="let nota">
+          {{ nota.nota }}
+        </td>
+
+      </ng-container>
+
+      <!-- ACCIONES -->
+      <ng-container matColumnDef="acciones">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Acciones
+        </th>
+
+        <td mat-cell *matCellDef="let nota">
+
+          <button
+            mat-icon-button
+            (click)="eliminar(nota)">
+
+            <mat-icon color="warn">
+              delete
+            </mat-icon>
+
+          </button>
+
+        </td>
+
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+
+      <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+
+    </table>
+
+  }
+
+</div>

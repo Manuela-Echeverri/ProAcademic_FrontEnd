@@ -1,0 +1,79 @@
+<div style="padding: 24px; background: #F5F3FF; min-height: 100vh;">
+
+  <!-- HEADER -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #EC4899, #F472B6);">
+        <mat-icon style="color: white;">menu_book</mat-icon>
+      </div>
+      <h1 style="font-size: 24px; font-weight: 700; color: #1E1B4B; margin: 0;">Materias</h1>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 12px; background: #FDF2F8; color: #EC4899; border: 1px solid #FBCFE8; cursor: pointer; font-weight: 500; font-size: 13px;"
+              (click)="imprimirPDF()">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">picture_as_pdf</mat-icon>
+        Generar PDF
+      </button>
+      <button style="display: flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 12px; background: linear-gradient(135deg, #7C3AED, #A855F7); color: white; border: none; cursor: pointer; font-weight: 600; font-size: 14px;"
+              (click)="abrirFormularioNuevo()">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px;">add</mat-icon>
+        Nueva Materia
+      </button>
+    </div>
+  </div>
+
+  <!-- TABLA -->
+  <div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 24px;">
+    <table mat-table [dataSource]="dataSource" style="width: 100%;">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef style="background: #F5F3FF; color: #1E1B4B; font-weight: 600;">Nombre</th>
+        <td mat-cell *matCellDef="let m" style="color: #1E1B4B; font-weight: 500;">{{ m.nombre }}</td>
+      </ng-container>
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef style="background: #F5F3FF; color: #1E1B4B; font-weight: 600;">Descripción</th>
+        <td mat-cell *matCellDef="let m" style="color: #6B7280;">{{ m.descripcion }}</td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef style="background: #F5F3FF; color: #1E1B4B; font-weight: 600;">Acciones</th>
+        <td mat-cell *matCellDef="let m">
+          <button mat-icon-button style="color: #7C3AED;" (click)="abrirFormularioEditar(m)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button style="color: #EC4899;" (click)="eliminar(m.id!)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas;" style="border-bottom: 1px solid #F5F3FF;"></tr>
+    </table>
+    <mat-paginator [pageSize]="5" showFirstLastButtons style="border-top: 1px solid #F5F3FF;"></mat-paginator>
+  </div>
+
+  <!-- FORMULARIO -->
+  @if (mostrarFormulario) {
+    <div style="background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid #EC4899;">
+      <h3 style="font-size: 18px; font-weight: 600; color: #1E1B4B; margin: 0 0 20px;">
+        {{ editando ? 'Editar Materia' : 'Nueva Materia' }}
+      </h3>
+      <form [formGroup]="formulario" style="display: flex; flex-direction: column; gap: 16px;">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Descripción</mat-label>
+          <input matInput formControlName="descripcion">
+        </mat-form-field>
+        <div style="display: flex; gap: 8px;">
+          <button style="padding: 8px 20px; border-radius: 12px; background: linear-gradient(135deg, #7C3AED, #A855F7); color: white; border: none; cursor: pointer; font-weight: 600;"
+                  type="button" (click)="guardar()">
+            {{ editando ? 'Actualizar' : 'Guardar' }}
+          </button>
+          <button style="padding: 8px 20px; border-radius: 12px; border: 1px solid #EC4899; background: white; color: #EC4899; cursor: pointer; font-weight: 500;"
+                  type="button" (click)="cerrarFormulario()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

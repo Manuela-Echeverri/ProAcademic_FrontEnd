@@ -1,0 +1,148 @@
+<div style="display: flex; height: 100vh; background: #F5F3FF;">
+
+  <!-- Sidebar izquierdo -->
+  <div
+    style="width: 280px; flex-shrink: 0; background: linear-gradient(160deg, #1E1B4B 0%, #4C1D95 45%, #7C3AED 100%); display: flex; flex-direction: column; justify-content: space-between; padding: 2rem 1.5rem; position: relative; overflow: hidden;">
+
+    <div
+      style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.04); top: -60px; right: -70px;">
+    </div>
+    <div
+      style="position: absolute; width: 130px; height: 130px; border-radius: 50%; background: rgba(255,255,255,0.04); bottom: 80px; left: -40px;">
+    </div>
+
+    <!-- Logo -->
+    <div style="display: flex; align-items: center; gap: 12px; z-index: 1;">
+      <div
+        style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;">
+        <mat-icon style="color: white; font-size: 24px; width: 24px; height: 24px;">school</mat-icon>
+      </div>
+      <span style="color: white; font-size: 18px; font-weight: 700; letter-spacing: -0.3px;">ProAcademic</span>
+    </div>
+
+    <!-- Texto central -->
+    <div style="z-index: 1;">
+      <h2 style="color: white; font-size: 22px; font-weight: 700; margin: 0 0 10px; line-height: 1.3;">
+        Sistema de Gestión Académica
+      </h2>
+      <p style="color: rgba(255,255,255,0.6); font-size: 13px; line-height: 1.7; margin: 0 0 20px;">
+        Administra estudiantes, docentes, materias y notas desde un solo lugar.
+      </p>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <span
+          style="background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); font-size: 12px; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px;">
+          <mat-icon style="font-size: 13px; width: 13px; height: 13px;">people</mat-icon> Usuarios
+        </span>
+        <span
+          style="background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); font-size: 12px; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px;">
+          <mat-icon style="font-size: 13px; width: 13px; height: 13px;">menu_book</mat-icon> Materias
+        </span>
+        <span
+          style="background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); font-size: 12px; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px;">
+          <mat-icon style="font-size: 13px; width: 13px; height: 13px;">assignment</mat-icon> Notas
+        </span>
+      </div>
+    </div>
+
+    <p style="color: rgba(255,255,255,0.35); font-size: 11px; z-index: 1; margin: 0;">
+      © 2026 ProAcademic
+    </p>
+  </div>
+
+  <!-- Panel derecho -->
+  <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+    <div
+      style="background: white; border-radius: 16px; border: 1px solid #EDE9FE; padding: 2.5rem 2rem; width: 100%; max-width: 380px; box-shadow: 0 4px 24px rgba(124,58,237,0.08);">
+
+      <div style="margin-bottom: 1.75rem;">
+        <h2 style="font-size: 22px; font-weight: 700; color: #1E1B4B; margin: 0 0 6px;">Bienvenido</h2>
+        <p style="font-size: 13px; color: #6B7280; margin: 0;">Ingresa tus credenciales para continuar</p>
+      </div>
+
+      <form [formGroup]="formulario" (ngSubmit)="alEnviar()">
+
+        <!-- Correo -->
+        <div style="margin-bottom: 1rem;">
+          <label
+            style="display: block; font-size: 11px; font-weight: 600; color: #4C1D95; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+            Correo electrónico
+          </label>
+          <div
+            style="display: flex; align-items: center; gap: 8px; background: #F5F3FF; border: 1.5px solid #EDE9FE; border-radius: 10px; padding: 0 12px;">
+            <mat-icon
+              style="color: #A78BFA; font-size: 18px; width: 18px; height: 18px; flex-shrink: 0;">mail_outline</mat-icon>
+            <input formControlName="correo" type="email" placeholder="correo@ejemplo.com"
+              style="background: transparent; border: none; outline: none; font-size: 14px; color: #1E1B4B; width: 100%; height: 44px; font-family: inherit;"
+              (focus)="onFocus($event)" (blur)="onBlur($event)">
+          </div>
+          @if (formulario.get('correo')?.touched && formulario.get('correo')?.hasError('required')) {
+          <p style="font-size: 12px; color: #EC4899; margin: 4px 0 0;">El correo es requerido</p>
+          }
+          @if (formulario.get('correo')?.touched && formulario.get('correo')?.hasError('email')) {
+          <p style="font-size: 12px; color: #EC4899; margin: 4px 0 0;">Ingresa un correo válido</p>
+          }
+        </div>
+
+        <!-- Contraseña -->
+        <div style="margin-bottom: 1.25rem;">
+          <label
+            style="display: block; font-size: 11px; font-weight: 600; color: #4C1D95; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+            Contraseña
+          </label>
+          <div
+            style="display: flex; align-items: center; gap: 8px; background: #F5F3FF; border: 1.5px solid #EDE9FE; border-radius: 10px; padding: 0 12px;">
+            <mat-icon
+              style="color: #A78BFA; font-size: 18px; width: 18px; height: 18px; flex-shrink: 0;">lock_outline</mat-icon>
+            <input formControlName="contrasena" [type]="mostrarContrasena ? 'text' : 'password'" placeholder="••••••••"
+              style="background: transparent; border: none; outline: none; font-size: 14px; color: #1E1B4B; width: 100%; height: 44px; font-family: inherit;"
+              (focus)="onFocus($event)" (blur)="onBlur($event)">
+            <button type="button"
+              style="background: none; border: none; cursor: pointer; padding: 0; display: flex; color: #A78BFA;"
+              (click)="mostrarContrasena = !mostrarContrasena">
+              <mat-icon style="font-size: 18px; width: 18px; height: 18px;">
+                {{ mostrarContrasena ? 'visibility_off' : 'visibility' }}
+              </mat-icon>
+            </button>
+          </div>
+          @if (formulario.get('contrasena')?.touched && formulario.get('contrasena')?.hasError('required')) {
+          <p style="font-size: 12px; color: #EC4899; margin: 4px 0 0;">La contraseña es requerida</p>
+          }
+          @if (formulario.get('contrasena')?.touched && formulario.get('contrasena')?.hasError('minlength')) {
+          <p style="font-size: 12px; color: #EC4899; margin: 4px 0 0;">Mínimo 6 caracteres</p>
+          }
+        </div>
+
+        <!-- Error general -->
+        @if (error) {
+        <div
+          style="border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; background: #FDF2F8; border: 1px solid #FBCFE8;">
+          <mat-icon style="color: #EC4899; font-size: 17px; width: 17px; height: 17px;">error_outline</mat-icon>
+          <p style="font-size: 13px; color: #EC4899; margin: 0;">{{ error }}</p>
+        </div>
+        }
+
+        <!-- Botón / Spinner -->
+        @if (cargando) {
+        <div style="display: flex; justify-content: center; padding: 12px 0;">
+          <mat-spinner diameter="36"></mat-spinner>
+        </div>
+        } @else {
+        <button type="submit"
+          style="width: 100%; height: 46px; background: linear-gradient(135deg, #4C1D95, #7C3AED); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; transition: opacity 0.2s;"
+          [disabled]="formulario.invalid" (mouseover)="onMouseOver($event)" (mouseout)="onMouseOut($event)">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px;">login</mat-icon>
+          Iniciar Sesión
+        </button>
+        }
+
+      </form>
+
+      <hr style="border: none; border-top: 1px solid #F3F0FF; margin: 1.5rem 0 1rem;">
+      <p style="text-align: center; font-size: 12px; color: #C4B5FD; margin: 0;">
+        Acceso restringido a usuarios autorizados
+      </p>
+
+    </div>
+  </div>
+
+</div>
