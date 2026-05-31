@@ -1,7 +1,7 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { JwtInterceptor } from './nucleo/interceptores/jwt.interceptor';
 import { AutenticacionAdaptador } from './funcionalidades/autenticacion/infraestructura/adaptadores/salida/autenticacion.adaptador';
 import { AUTENTICACION_SALIDA_PUERTO } from './funcionalidades/autenticacion/dominio/puertos/salida/autenticacion-salida.puerto';
@@ -18,7 +18,7 @@ import { ESTUDIANTE_SALIDA_PUERTO } from './funcionalidades/estudiante/dominio/p
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideAnimationsAsync(),
+    provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: NOTAS_SALIDA_PUERTO,

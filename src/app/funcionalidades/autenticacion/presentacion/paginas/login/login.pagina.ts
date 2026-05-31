@@ -8,8 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AlmacenamientoServicio } from '../../../../../nucleo/servicios/almacenamiento.servicio';
 import { AUTENTICACION_SALIDA_PUERTO, AutenticacionSalidaPuerto } from '../../../dominio/puertos/salida/autenticacion-salida.puerto';
-import { CargandoComponente } from '../../../../../compartido/componentes/cargando/cargando.componente';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { timeout, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login-pagina',
@@ -44,13 +45,46 @@ export class LoginPagina {
     });
   }
 
+  onFocus(event: FocusEvent): void {
+    const wrapper = (event.target as HTMLElement).parentElement;
+    if (wrapper) {
+      wrapper.style.borderColor = '#7C3AED';
+      wrapper.style.background = 'white';
+    }
+  }
+
+  onBlur(event: FocusEvent): void {
+    const wrapper = (event.target as HTMLElement).parentElement;
+    if (wrapper) {
+      wrapper.style.borderColor = '#EDE9FE';
+      wrapper.style.background = '#F5F3FF';
+    }
+  }
+
+  onMouseOver(event: MouseEvent): void {
+    (event.currentTarget as HTMLElement).style.opacity = '0.9';
+  }
+
+  onMouseOut(event: MouseEvent): void {
+    (event.currentTarget as HTMLElement).style.opacity = '1';
+  }
+
   alEnviar(): void {
     if (this.formulario.invalid) return;
 
     this.cargando = true;
     this.error = '';
 
-    this.puerto.login(this.formulario.value).subscribe({
+    this.puerto.login(this.formulario.value).pipe(
+      timeout(10000), // 10 segundos máximo
+      catchError((err) => {
+        this.cargando = false;
+        this.error = err?.name === 'TimeoutError'
+          ? 'El servidor tardó demasiado. Intenta de nuevo.'
+          : 'Correo o contraseña incorrectos';
+        return throwError(() => err);
+      })
+    ).subscribe({
       next: (sesion: any) => {
         this.almacenamiento.guardar('token', sesion.token);
         this.almacenamiento.guardar('sesion', sesion);
@@ -66,10 +100,7 @@ export class LoginPagina {
           this.router.navigate(['/inicio']);
         }
       },
-      error: () => {
-        this.cargando = false;
-        this.error = 'Correo o contraseña incorrectos';
-      }
+      error: () => {} // ya manejado en catchError
     });
   }
 }
