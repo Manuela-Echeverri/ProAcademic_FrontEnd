@@ -1,1 +1,0 @@
-export * from './estudiante-salida.puerto';
